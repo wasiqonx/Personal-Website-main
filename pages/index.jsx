@@ -26,7 +26,7 @@ export default function Home() {
             <br></br>
             <h1 className="text-2xl font-bold text-white mt-6 mb-4"><strong>EXPERIENCE</strong></h1>
             <ul className="text-left list-disc list-inside space-y-2">
-                <li><strong>Community Management:</strong> With 5 years of experience, I've worked on various projects, building and managing communities and developing social media strategies. During this time, I've successfully coordinated communities with thousands of members, adding value to multiple projects.</li>
+                <li><strong>Community Management:</strong> With 1.5 years of experience, I've worked on various projects, building and managing communities and developing social media strategies. During this time, I've successfully coordinated communities with thousands of members, adding value to multiple projects.</li>
                 <li><strong>Software Development:</strong> As a Techincal Contributer, I've been involved in various projects, including <strong>Sniper Search</strong>, a tool that allows you to check if a token is safe to invest in and get more info on it so you don't lose your investments.</li>
                 <li><strong>Content Creation:</strong> I create expert-level content about software and digital assets on social media, where I've gained a following of over <strong>40,000 people</strong>.</li>
             </ul>
