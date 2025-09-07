@@ -241,6 +241,7 @@ export default function Register() {
                 data-theme="dark"
                 data-callback="onHCaptchaVerify"
                 data-expired-callback="onHCaptchaExpire"
+                suppressHydrationWarning
               ></div>
             </div>
             {errors.captcha && <p className="text-red-400 text-sm text-center">{errors.captcha}</p>}
