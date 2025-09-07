@@ -20,14 +20,11 @@ This project includes several security measures to protect your data:
 - Automatic logout on cookie consent revocation
 
 ### Comment Protection
-- hCaptcha integration prevents bot spam
-- Comments require captcha verification
 - **🤖 AI-Powered Auto-Moderation**:
   - Auto-approves constructive criticism
   - Auto-rejects inappropriate content and suspicious links
   - Manual review for neutral content
 - Admin approval system for flagged comments
-- Automatic captcha reset on form errors
 
 ### Prisma Studio Protection
 - Blocked from running in production
@@ -69,8 +66,6 @@ npm run security:check
 ```env
 DATABASE_URL="file:./prod.db"
 JWT_SECRET="your-secure-jwt-secret"
-NEXT_PUBLIC_HCAPTCHA_SITE_KEY="your-hcaptcha-site-key"
-HCAPTCHA_SECRET_KEY="your-hcaptcha-secret-key"
 NODE_ENV=production
 ```
 

@@ -101,8 +101,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'Content and author are required' })
       }
 
-      // Optional hCaptcha verification (skip for now to simplify process)
-      // TODO: Re-enable hCaptcha when needed for spam protection
 
       if (content.length > 1000) {
         return res.status(400).json({ error: 'Comment must be less than 1000 characters' })

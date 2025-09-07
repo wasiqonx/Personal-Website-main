@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { useAuth } from '../lib/auth'
 
 export default function Profile() {
@@ -12,8 +11,6 @@ export default function Profile() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [hcaptchaToken, setHcaptchaToken] = useState('')
-  const hcaptchaRef = useRef(null)
 
   const [formData, setFormData] = useState({
     username: '',
@@ -87,10 +84,6 @@ export default function Profile() {
       }
     }
 
-    if (!hcaptchaToken) {
-      setError('Please complete the captcha')
-      return false
-    }
 
     return true
   }
@@ -107,8 +100,7 @@ export default function Profile() {
     try {
       const token = localStorage.getItem('token')
       const updateData = {
-        username: formData.username,
-        hcaptchaToken
+        username: formData.username
       }
 
       // Only include password fields if user wants to change password
@@ -143,9 +135,6 @@ export default function Profile() {
         confirmPassword: ''
       }))
 
-      // Reset captcha
-      hcaptchaRef.current?.resetCaptcha()
-      setHcaptchaToken('')
 
       // Update auth context if username changed
       if (data.usernameChanged) {
@@ -154,8 +143,6 @@ export default function Profile() {
 
     } catch (error) {
       setError(error.message)
-      hcaptchaRef.current?.resetCaptcha()
-      setHcaptchaToken('')
     } finally {
       setSaving(false)
     }
@@ -279,15 +266,6 @@ export default function Profile() {
                 </div>
               </div>
 
-              <div className="flex justify-center">
-                <HCaptcha
-                  ref={hcaptchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || 'f004cc1c-169e-4bea-b1da-b2a21d92d49a'}
-                  onVerify={setHcaptchaToken}
-                  onExpire={() => setHcaptchaToken('')}
-                  theme="dark"
-                />
-              </div>
 
               <button
                 type="submit"

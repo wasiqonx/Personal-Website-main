@@ -31,9 +31,6 @@ This document outlines the comprehensive security measures implemented to protec
 - ✅ **API Protection**: Authentication required for sensitive operations
 
 ### 5. Comment Protection
-- ✅ **hCaptcha Integration**: Server-side validation prevents bot spam
-- ✅ **Captcha Verification**: Required for all comment submissions
-- ✅ **Token Validation**: hCaptcha tokens verified with official API
 - ✅ **🤖 AI-Powered Auto-Moderation**:
   - Intelligent content analysis for constructive criticism detection
   - Automatic approval of positive, helpful feedback
@@ -47,10 +44,8 @@ This document outlines the comprehensive security measures implemented to protec
 ### Pre-Deployment
 - [ ] Copy `config/production-template.env` to `.env.production`
 - [ ] Generate new JWT secret for production
-- [ ] Configure production hCaptcha keys from https://hcaptcha.com
 - [ ] Set `DATABASE_URL="file:./prod.db"` for production
 - [ ] Test build with `npm run build`
-- [ ] Verify comment captcha functionality
 
 ### Production Environment
 - [ ] Deploy with `NODE_ENV=production`
@@ -95,8 +90,6 @@ npm run dev           # Development server
 ```env
 DATABASE_URL="file:./prod.db"
 JWT_SECRET="your-production-jwt-secret"
-NEXT_PUBLIC_HCAPTCHA_SITE_KEY="your-hcaptcha-site-key"
-HCAPTCHA_SECRET_KEY="your-hcaptcha-secret-key"
 NODE_ENV=production
 ```
 

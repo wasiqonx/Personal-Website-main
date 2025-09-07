@@ -134,10 +134,8 @@ export default function EditPost() {
 
       <div className="py-10">
         <div className="flex items-center mb-8">
-          <Link href="/admin">
-            <a className="text-blue-400 hover:text-blue-300 mr-4">
-              <i className="fas fa-arrow-left mr-2"></i>Back to Dashboard
-            </a>
+          <Link href="/admin" className="text-blue-400 hover:text-blue-300 mr-4">
+            <i className="fas fa-arrow-left mr-2"></i>Back to Dashboard
           </Link>
           <h1 className="text-3xl text-white font-semibold">Edit Post</h1>
         </div>
@@ -341,16 +339,12 @@ export default function EditPost() {
                     {isLoading ? 'Updating...' : 'Update Post'}
                   </button>
 
-                  <Link href={`/blog/${slug}`}>
-                    <a target="_blank" className="block w-full text-center bg-green-600/20 hover:bg-green-600/30 text-green-400 py-2 rounded-lg transition-colors duration-200">
-                      Preview Post
-                    </a>
+                  <Link href={`/blog/${slug}`} target="_blank" className="block w-full text-center bg-green-600/20 hover:bg-green-600/30 text-green-400 py-2 rounded-lg transition-colors duration-200">
+                    Preview Post
                   </Link>
 
-                  <Link href="/admin">
-                    <a className="block w-full text-center bg-neutral-700/50 hover:bg-neutral-700/70 text-white py-2 rounded-lg transition-colors duration-200">
-                      Cancel
-                    </a>
+                  <Link href="/admin" className="block w-full text-center bg-neutral-700/50 hover:bg-neutral-700/70 text-white py-2 rounded-lg transition-colors duration-200">
+                    Cancel
                   </Link>
                 </div>
               </div>

@@ -103,15 +103,11 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl text-white font-semibold">Admin Dashboard</h1>
           <div className="flex space-x-3">
-            <Link href="/admin/comments">
-              <a className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors duration-200">
-                <i className="fas fa-comments mr-2"></i>Comments
-              </a>
+            <Link href="/admin/comments" className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors duration-200">
+              <i className="fas fa-comments mr-2"></i>Comments
             </Link>
-            <Link href="/admin/posts/new">
-              <a className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
-                <i className="fas fa-plus mr-2"></i>New Post
-              </a>
+            <Link href="/admin/posts/new" className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
+              <i className="fas fa-plus mr-2"></i>New Post
             </Link>
           </div>
         </div>
@@ -172,15 +168,11 @@ export default function AdminDashboard() {
                       </td>
                       <td className="py-4">
                         <div className="flex space-x-2">
-                          <Link href={`/admin/posts/edit/${post.slug}`}>
-                            <a className="text-blue-400 hover:text-blue-300">
-                              <i className="fas fa-edit"></i>
-                            </a>
+                          <Link href={`/admin/posts/edit/${post.slug}`} className="text-blue-400 hover:text-blue-300">
+                            <i className="fas fa-edit"></i>
                           </Link>
-                          <Link href={`/blog/${post.slug}`}>
-                            <a className="text-green-400 hover:text-green-300" target="_blank">
-                              <i className="fas fa-eye"></i>
-                            </a>
+                          <Link href={`/blog/${post.slug}`} className="text-green-400 hover:text-green-300" target="_blank">
+                            <i className="fas fa-eye"></i>
                           </Link>
                           <button
                             onClick={() => deletePost(post.slug)}

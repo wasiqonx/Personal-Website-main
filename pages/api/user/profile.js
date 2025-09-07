@@ -34,41 +34,8 @@ async function handler(req, res) {
   
   else if (req.method === 'PUT') {
     try {
-      const { username, currentPassword, newPassword, hcaptchaToken } = req.body
+      const { username, currentPassword, newPassword } = req.body
 
-      // Verify hCaptcha token for profile updates
-      if (!hcaptchaToken) {
-        return res.status(400).json({ error: 'Captcha verification required' })
-      }
-
-      // SSRF Protection: Only allow specific hCaptcha domain
-      const hcaptchaUrl = 'https://hcaptcha.com/siteverify'
-      const allowedHost = 'hcaptcha.com'
-
-      // Additional SSRF protection - validate URL before fetch
-      try {
-        const url = new URL(hcaptchaUrl)
-        if (url.hostname !== allowedHost) {
-          throw new Error('Invalid hCaptcha URL')
-        }
-      } catch (error) {
-        console.error('URL validation error:', error)
-        return res.status(500).json({ error: 'Captcha validation failed' })
-      }
-
-      const hcaptchaResponse = await fetch(hcaptchaUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `secret=${process.env.HCAPTCHA_SECRET_KEY}&response=${hcaptchaToken}`,
-      })
-
-      const hcaptchaData = await hcaptchaResponse.json()
-
-      if (!hcaptchaData.success) {
-        return res.status(400).json({ error: 'Invalid captcha' })
-      }
 
       // Get current user data
       const currentUser = await prisma.user.findUnique({

@@ -29,10 +29,8 @@ export default function AdminComments() {
           {user && !user.isAdmin && <span className="block mt-2 text-yellow-400">You are logged in as: {user.username} (not admin)</span>}
           {!user && <span className="block mt-2 text-red-400">You are not logged in</span>}
         </p>
-        <Link href="/auth/login">
-          <a className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
-            Login as Admin
-          </a>
+        <Link href="/auth/login" className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
+          Login as Admin
         </Link>
       </div>
     )
@@ -75,10 +73,8 @@ export default function AdminComments() {
           <h1 className="text-4xl font-bold text-white mb-2">Comments Management</h1>
           <p className="text-white/60">Manage blog post comments</p>
         </div>
-        <Link href="/admin">
-          <a className="bg-neutral-700 hover:bg-neutral-600 px-4 py-2 rounded-lg transition-colors duration-200">
-            Back to Admin
-          </a>
+        <Link href="/admin" className="bg-neutral-700 hover:bg-neutral-600 px-4 py-2 rounded-lg transition-colors duration-200">
+          Back to Admin
         </Link>
       </div>
 
@@ -152,10 +148,8 @@ export default function AdminComments() {
 
               {/* Post Info */}
               <div className="mb-4">
-                <Link href={`/blog/${comment.Post.slug}`}>
-                  <a className="text-blue-400 hover:text-blue-300 text-sm">
-                    On: {comment.Post.title}
-                  </a>
+                <Link href={`/blog/${comment.Post.slug}`} className="text-blue-400 hover:text-blue-300 text-sm">
+                  On: {comment.Post.title}
                 </Link>
               </div>
 

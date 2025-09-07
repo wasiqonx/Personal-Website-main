@@ -2,7 +2,6 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState, useRef } from 'react'
-// HCaptcha removed - comments are auto-approved
 import swr from '../../lib/swr'
 import { useAuth } from '../../lib/auth'
 import Image from 'next/image'
@@ -20,10 +19,8 @@ export default function BlogPost() {
       <div className="py-20 text-center">
         <h1 className="text-2xl text-white font-semibold mb-4">Post Not Found</h1>
         <p className="text-white/50 mb-6">The blog post you're looking for doesn't exist.</p>
-        <Link href="/blog">
-          <a className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
-            Back to Blog
-          </a>
+        <Link href="/blog" className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors duration-200">
+          Back to Blog
         </Link>
       </div>
     )
@@ -49,11 +46,9 @@ export default function BlogPost() {
       </Head>
       
       <div className="py-10">
-        <Link href="/blog">
-          <a className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 transition-colors duration-200">
-            <i className="fas fa-arrow-left mr-2"></i>
-            Back to Blog
-          </a>
+        <Link href="/blog" className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-8 transition-colors duration-200">
+          <i className="fas fa-arrow-left mr-2"></i>
+          Back to Blog
         </Link>
 
         <article className="max-w-4xl">
@@ -203,12 +198,6 @@ function CommentsSection({ post }) {
     setIsSubmitting(true)
     setSubmitMessage('')
 
-    // Validate captcha
-    if (!hcaptchaToken) {
-      setSubmitMessage('Please complete the captcha verification.')
-      setIsSubmitting(false)
-      return
-    }
 
     try {
       // Use authenticated user data if available
@@ -249,8 +238,6 @@ function CommentsSection({ post }) {
           ...(user ? {} : { author: '', email: '' }) // Don't reset author/email for authenticated users
         }))
         setReplyingTo(null) // Reset reply state
-        setHcaptchaToken('')
-        hcaptchaRef.current?.resetCaptcha()
         // Refresh comments (comments are now visible immediately)
         mutate(async () => {
           const response = await fetch(`/api/blog/${slug}/comments`)
@@ -262,9 +249,6 @@ function CommentsSection({ post }) {
         }, false)
       } else {
         setSubmitMessage(data.error || 'Failed to submit comment')
-        // Reset captcha on error
-        setHcaptchaToken('')
-        hcaptchaRef.current?.resetCaptcha()
       }
     } catch (error) {
       setSubmitMessage('Network error. Please try again.')
