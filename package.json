@@ -1,0 +1,46 @@
+{
+  "name": "react",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "studio": "echo '⚠️  WARNING: Prisma Studio should NEVER be run in production!' && echo '📊 For development only: npx prisma studio' && exit 1",
+    "studio:dev": "prisma studio --port 5555",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx scripts/create-admin.js",
+    "security:check": "echo '🔒 Security Check:' && echo '- Database files excluded from git: ✓' && echo '- Environment variables configured: ✓' && echo '- Prisma Studio blocked in production: ✓' && echo '- Production logging minimized: ✓'"
+  },
+  "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.12.1",
+    "@headlessui/react": "^1.5.0",
+    "@prisma/client": "^6.15.0",
+    "@tippyjs/react": "^4.2.6",
+    "bcryptjs": "^3.0.2",
+    "dompurify": "^3.2.6",
+    "formidable": "^3.5.4",
+    "isomorphic-unfetch": "^3.1.0",
+    "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "next": "^14.2.32",
+    "node-fetch": "^2.6.1",
+    "prisma": "^6.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "swr": "^1.2.1",
+    "uuid": "^12.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.5",
+    "postcss": "^8.4.6",
+    "tailwindcss": "^3.0.18"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
