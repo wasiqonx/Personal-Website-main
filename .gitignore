@@ -23,7 +23,10 @@ build/
 dist/
 
 # Database files
-
+*.db
+*.sqlite
+*.sqlite3
+prisma/dev.db
 
 # Prisma generated files
 /lib/generated/prisma
