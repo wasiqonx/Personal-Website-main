@@ -8,25 +8,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { email, password, hcaptchaToken } = req.body
+  const { email, password } = req.body
 
-  if (!email || !password || !hcaptchaToken) {
-    return res.status(400).json({ error: 'Missing required fields' })
-  }
-
-  // Verify hCaptcha token
-  const hcaptchaResponse = await fetch('https://hcaptcha.com/siteverify', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: `secret=${process.env.HCAPTCHA_SECRET_KEY}&response=${hcaptchaToken}`,
-  })
-
-  const hcaptchaData = await hcaptchaResponse.json()
-
-  if (!hcaptchaData.success) {
-    return res.status(400).json({ error: 'Invalid captcha' })
+  if (!email || !password) {
+    return res.status(400).json({ error: 'Email and password are required' })
   }
 
   try {

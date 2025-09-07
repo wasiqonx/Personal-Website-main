@@ -1,15 +1,8 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
 import { useAuth } from '../../lib/auth'
-
-// Dynamically import hCaptcha component to avoid SSR issues
-const HCaptchaWidget = dynamic(() => import('../../components/HCaptchaWidget'), {
-  ssr: false,
-  loading: () => <div className="flex justify-center"><div className="h-24 w-full bg-neutral-800/20 rounded animate-pulse"></div></div>
-})
 
 export default function Login() {
   const router = useRouter()
@@ -20,22 +13,6 @@ export default function Login() {
   })
   const [errors, setErrors] = useState({})
   const [isLoading, setIsLoading] = useState(false)
-  const [hcaptchaToken, setHcaptchaToken] = useState('')
-  const hcaptchaRef = useRef(null)
-
-  // Handle hCaptcha verification
-  const handleCaptchaVerify = (token) => {
-    console.log('hCaptcha verified with token:', token)
-    setHcaptchaToken(token)
-    if (errors.captcha) {
-      setErrors(prev => ({ ...prev, captcha: '' }))
-    }
-  }
-
-  const handleCaptchaExpire = () => {
-    console.log('hCaptcha expired')
-    setHcaptchaToken('')
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -58,10 +35,6 @@ export default function Login() {
       newErrors.password = 'Password is required'
     }
 
-    if (!hcaptchaToken) {
-      newErrors.captcha = 'Please complete the captcha'
-    }
-
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -81,8 +54,7 @@ export default function Login() {
         },
         body: JSON.stringify({
           email: formData.email,
-          password: formData.password,
-          hcaptchaToken
+          password: formData.password
         }),
       })
 
@@ -109,8 +81,6 @@ export default function Login() {
       }
     } catch (error) {
       setErrors({ general: error.message })
-      hcaptchaRef.current?.resetCaptcha()
-      setHcaptchaToken('')
     } finally {
       setIsLoading(false)
     }
@@ -170,13 +140,6 @@ export default function Login() {
               {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
             </div>
 
-            <div className="flex justify-center">
-              <HCaptchaWidget
-                onVerify={handleCaptchaVerify}
-                onExpire={handleCaptchaExpire}
-              />
-            </div>
-            {errors.captcha && <p className="text-red-400 text-sm text-center">{errors.captcha}</p>}
 
             <button
               type="submit"
