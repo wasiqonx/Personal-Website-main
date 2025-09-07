@@ -44,7 +44,6 @@ function MyApp({ Component, pageProps }) {
           <title>Wasiq Syed</title>
           <link rel="shortcut icon" href="https://ugc.production.linktr.ee/6RJk9s2pQZ2yAdcxw3Ir_TXX2dLlNmwM2OFdf?io=true&size=avatar-v3_0" type="image/x-icon" ></link>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <link href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet" />
 
       </Head>
       <Transition
@@ -80,10 +79,8 @@ function MyApp({ Component, pageProps }) {
                 <a href="https://discord.gg/uQpVyeHVZw" target="_blank" rel="noreferrer" className="w-full md:w-auto bg-neutral-700/5 hover:bg-neutral-700/20 px-4 py-2 rounded-md transition-all duration-200">
                   <i className="fab fa-discord mr-2" />Join My Discord
                 </a>
-                <Link href="/cookies">
-                  <a className="w-full md:w-auto bg-neutral-700/5 hover:bg-neutral-700/20 px-4 py-2 rounded-md transition-all duration-200 text-sm">
-                    🍪 Cookies
-                  </a>
+                <Link href="/cookies" className="w-full md:w-auto bg-neutral-700/5 hover:bg-neutral-700/20 px-4 py-2 rounded-md transition-all duration-200 text-sm">
+                  🍪 Cookies
                 </Link>
               </div>
 

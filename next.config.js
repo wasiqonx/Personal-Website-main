@@ -81,11 +81,4 @@ module.exports = {
     serverComponentsExternalPackages: []
   },
 
-  // API configuration
-  api: {
-    // Limit request body size to prevent DoS
-    bodyParser: {
-      sizeLimit: '1mb'
-    }
-  }
 };

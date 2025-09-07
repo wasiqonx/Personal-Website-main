@@ -55,10 +55,8 @@ export default function CookiesPage() {
       <div className="py-10">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex items-center mb-8">
-            <Link href="/">
-              <a className="text-blue-400 hover:text-blue-300 mr-4">
-                <i className="fas fa-arrow-left mr-2"></i>Back to Home
-              </a>
+            <Link href="/" className="text-blue-400 hover:text-blue-300 mr-4">
+              <i className="fas fa-arrow-left mr-2"></i>Back to Home
             </Link>
             <h1 className="text-3xl text-white font-semibold">Cookie Settings</h1>
           </div>
@@ -186,10 +184,8 @@ export default function CookiesPage() {
               If you have any questions about our cookie policy or need assistance with your privacy settings,
               please don't hesitate to contact us.
             </p>
-            <Link href="/contact">
-              <a className="text-blue-400 hover:text-blue-300">
-                Get in touch →
-              </a>
+            <Link href="/contact" className="text-blue-400 hover:text-blue-300">
+              Get in touch →
             </Link>
           </div>
         </div>

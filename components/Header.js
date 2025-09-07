@@ -53,17 +53,13 @@ const Header = () => {
             <div className="flex flex-col md:flex-row justify-between items-center py-2">
                 <div className="flex justify-center md:justify-start items-center space-x-4">
                     {navItems.map(item => (
-                        <Link key={item.label} href={item.href}>
-                            <a className={`flex items-center justify-center text-white/50 cursor-pointer hover:text-white/100 rounded-xl transition-all duration-150 ${isActive(item.href) && 'text-white/100'}`}>
-                                <i className={`${isActive(item.href) ? item.active : item.icon} mr-2`} />{item.label}
-                            </a>
+                        <Link key={item.label} href={item.href} className={`flex items-center justify-center text-white/50 cursor-pointer hover:text-white/100 rounded-xl transition-all duration-150 ${isActive(item.href) && 'text-white/100'}`}>
+                            <i className={`${isActive(item.href) ? item.active : item.icon} mr-2`} />{item.label}
                         </Link>
                     ))}
                     {isAdmin && (
-                        <Link href="/admin">
-                            <a className={`flex items-center justify-center text-white/50 cursor-pointer hover:text-white/100 rounded-xl transition-all duration-150 ${isActive('/admin') && 'text-white/100'}`}>
-                                <i className={`${isActive('/admin') ? 'fa fa-cog' : 'fal fa-cog'} mr-2`} />Admin
-                            </a>
+                        <Link href="/admin" className={`flex items-center justify-center text-white/50 cursor-pointer hover:text-white/100 rounded-xl transition-all duration-150 ${isActive('/admin') && 'text-white/100'}`}>
+                            <i className={`${isActive('/admin') ? 'fa fa-cog' : 'fal fa-cog'} mr-2`} />Admin
                         </Link>
                     )}
                 </div>
@@ -72,10 +68,8 @@ const Header = () => {
                     {isAuthenticated ? (
                         <>
                             <span className="text-white/70 text-sm">Hello, {user.username}</span>
-                            <Link href="/profile">
-                                <a className="text-white/50 hover:text-white/100 transition-colors duration-150">
-                                    <i className="fal fa-user mr-1" />Profile
-                                </a>
+                            <Link href="/profile" className="text-white/50 hover:text-white/100 transition-colors duration-150">
+                                <i className="fal fa-user mr-1" />Profile
                             </Link>
                             <button
                                 onClick={logout}
@@ -86,15 +80,11 @@ const Header = () => {
                         </>
                     ) : (
                         <>
-                            <Link href="/auth/login">
-                                <a className="text-white/50 hover:text-white/100 transition-colors duration-150">
-                                    <i className="fal fa-sign-in-alt mr-1" />Login
-                                </a>
+                            <Link href="/auth/login" className="text-white/50 hover:text-white/100 transition-colors duration-150">
+                                <i className="fal fa-sign-in-alt mr-1" />Login
                             </Link>
-                            <Link href="/auth/register">
-                                <a className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg text-sm transition-colors duration-150">
-                                    Register
-                                </a>
+                            <Link href="/auth/register" className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-lg text-sm transition-colors duration-150">
+                                Register
                             </Link>
                         </>
                     )}

@@ -67,37 +67,35 @@ export default function Blog() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {filteredPosts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.slug}`}>
-                <a className="block bg-neutral-800/10 hover:bg-neutral-800/20 p-6 rounded-lg transition-all duration-200 group">
-                  <h2 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-200 mb-2">
-                    {post.title}
-                  </h2>
-                  
-                  <div className="flex items-center text-sm text-white/50 mb-3">
-                    <span>By {post.author?.username || 'Unknown Author'}</span>
-                    <span className="mx-2">•</span>
-                    <span>{new Date(post.publishedAt || post.createdAt).toLocaleDateString()}</span>
+              <Link key={post.id} href={`/blog/${post.slug}`} className="block bg-neutral-800/10 hover:bg-neutral-800/20 p-6 rounded-lg transition-all duration-200 group">
+                <h2 className="text-xl font-semibold text-white group-hover:text-blue-400 transition-colors duration-200 mb-2">
+                  {post.title}
+                </h2>
+
+                <div className="flex items-center text-sm text-white/50 mb-3">
+                  <span>By {post.author?.username || 'Unknown Author'}</span>
+                  <span className="mx-2">•</span>
+                  <span>{new Date(post.publishedAt || post.createdAt).toLocaleDateString()}</span>
+                </div>
+
+                {post.excerpt && (
+                  <p className="text-white/70 mb-4 line-clamp-3">
+                    {post.excerpt}
+                  </p>
+                )}
+
+                {post.tags && post.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {post.tags.map((tag) => (
+                      <span
+                        key={tag.id}
+                        className="px-2 py-1 bg-neutral-700/30 text-xs rounded-full text-white/60"
+                      >
+                        {tag.name}
+                      </span>
+                    ))}
                   </div>
-                  
-                  {post.excerpt && (
-                    <p className="text-white/70 mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  )}
-                  
-                  {post.tags && post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag.id}
-                          className="px-2 py-1 bg-neutral-700/30 text-xs rounded-full text-white/60"
-                        >
-                          {tag.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </a>
+                )}
               </Link>
             ))}
           </div>
