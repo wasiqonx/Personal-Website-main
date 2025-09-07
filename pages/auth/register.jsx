@@ -2,8 +2,15 @@ import { useState, useRef, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 // Removed HCaptcha import - using HTML-based approach
 import { useAuth } from '../../lib/auth'
+
+// Dynamically import hCaptcha component to avoid SSR issues
+const HCaptchaWidget = dynamic(() => import('../../components/HCaptchaWidget'), {
+  ssr: false,
+  loading: () => <div className="flex justify-center"><div className="h-24 w-full bg-neutral-800/20 rounded animate-pulse"></div></div>
+})
 
 export default function Register() {
   const router = useRouter()
@@ -19,31 +26,19 @@ export default function Register() {
   const [hcaptchaToken, setHcaptchaToken] = useState('')
   const hcaptchaRef = useRef(null)
 
-  // Set up hCaptcha callbacks when component mounts
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.onHCaptchaVerify = (token) => {
-        console.log('hCaptcha verified with token:', token)
-        setHcaptchaToken(token)
-        if (errors.captcha) {
-          setErrors(prev => ({ ...prev, captcha: '' }))
-        }
-      }
-
-      window.onHCaptchaExpire = () => {
-        console.log('hCaptcha expired')
-        setHcaptchaToken('')
-      }
+  // Handle hCaptcha verification
+  const handleCaptchaVerify = (token) => {
+    console.log('hCaptcha verified with token:', token)
+    setHcaptchaToken(token)
+    if (errors.captcha) {
+      setErrors(prev => ({ ...prev, captcha: '' }))
     }
+  }
 
-    // Cleanup
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.onHCaptchaVerify = null
-        window.onHCaptchaExpire = null
-      }
-    }
-  }, [errors.captcha])
+  const handleCaptchaExpire = () => {
+    console.log('hCaptcha expired')
+    setHcaptchaToken('')
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -235,14 +230,10 @@ export default function Register() {
             </div>
 
             <div className="flex justify-center">
-              <div
-                className="h-captcha"
-                data-sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001'}
-                data-theme="dark"
-                data-callback="onHCaptchaVerify"
-                data-expired-callback="onHCaptchaExpire"
-                suppressHydrationWarning
-              ></div>
+              <HCaptchaWidget
+                onVerify={handleCaptchaVerify}
+                onExpire={handleCaptchaExpire}
+              />
             </div>
             {errors.captcha && <p className="text-red-400 text-sm text-center">{errors.captcha}</p>}
 
