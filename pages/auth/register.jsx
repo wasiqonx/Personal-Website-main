@@ -1,8 +1,8 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import HCaptcha from '@hcaptcha/react-hcaptcha'
+// Removed HCaptcha import - using HTML-based approach
 import { useAuth } from '../../lib/auth'
 
 export default function Register() {
@@ -18,6 +18,32 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false)
   const [hcaptchaToken, setHcaptchaToken] = useState('')
   const hcaptchaRef = useRef(null)
+
+  // Set up hCaptcha callbacks when component mounts
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.onHCaptchaVerify = (token) => {
+        console.log('hCaptcha verified with token:', token)
+        setHcaptchaToken(token)
+        if (errors.captcha) {
+          setErrors(prev => ({ ...prev, captcha: '' }))
+        }
+      }
+
+      window.onHCaptchaExpire = () => {
+        console.log('hCaptcha expired')
+        setHcaptchaToken('')
+      }
+    }
+
+    // Cleanup
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.onHCaptchaVerify = null
+        window.onHCaptchaExpire = null
+      }
+    }
+  }, [errors.captcha])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -209,13 +235,13 @@ export default function Register() {
             </div>
 
             <div className="flex justify-center">
-              <HCaptcha
-                ref={hcaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || 'your-site-key'}
-                onVerify={setHcaptchaToken}
-                onExpire={() => setHcaptchaToken('')}
-                theme="dark"
-              />
+              <div
+                className="h-captcha"
+                data-sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || '10000000-ffff-ffff-ffff-000000000001'}
+                data-theme="dark"
+                data-callback="onHCaptchaVerify"
+                data-expired-callback="onHCaptchaExpire"
+              ></div>
             </div>
             {errors.captcha && <p className="text-red-400 text-sm text-center">{errors.captcha}</p>}
 
