@@ -23,6 +23,7 @@
     "formidable": "^3.5.4",
     "isomorphic-unfetch": "^3.1.0",
     "js-cookie": "^3.0.5",
+    "jsdom": "^26.1.0",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.32",
     "node-fetch": "^2.6.1",

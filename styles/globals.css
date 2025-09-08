@@ -133,3 +133,111 @@ html {
 .text-online {
     color: #46f154;
 }
+
+/* Blog Content Image Styles */
+.prose img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 8px !important;
+    margin: 1.5rem auto !important;
+    display: block !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+}
+
+.prose img:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Responsive image containers */
+.prose .image-container {
+    margin: 2rem 0 !important;
+    text-align: center !important;
+}
+
+.prose .image-container img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    margin: 0 !important;
+    display: inline-block !important;
+}
+
+/* Image captions */
+.prose .image-caption {
+    font-size: 0.875rem !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    text-align: center !important;
+    margin-top: 0.5rem !important;
+    font-style: italic !important;
+}
+
+/* Ensure images don't overflow on small screens */
+@media (max-width: 640px) {
+    .prose img {
+        margin: 1rem auto !important;
+        border-radius: 6px !important;
+    }
+
+    .prose .image-container {
+        margin: 1.5rem 0 !important;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .prose img {
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
+/* Prose typography enhancements for better image integration */
+.prose {
+    max-width: none !important;
+}
+
+.prose p {
+    margin-bottom: 1.25rem !important;
+}
+
+.prose h2, .prose h3, .prose h4 {
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.prose strong {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.prose code {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+    padding: 0.125rem 0.25rem !important;
+    border-radius: 0.25rem !important;
+}
+
+/* Image lazy loading placeholder */
+.prose img[loading="lazy"] {
+    background: linear-gradient(90deg, rgba(255,255,255,0.1) 25%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.1) 75%) !important;
+    background-size: 200% 100% !important;
+    animation: loading-shimmer 1.5s infinite !important;
+}
+
+@keyframes loading-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Print styles for images */
+@media print {
+    .prose img {
+        max-width: 100% !important;
+        page-break-inside: avoid !important;
+        margin: 1rem 0 !important;
+    }
+}

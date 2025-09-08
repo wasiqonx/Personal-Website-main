@@ -143,8 +143,24 @@ function formatContent(content) {
     return 'No content available.';
   }
 
-  // Escape HTML entities first to prevent XSS
-  const escaped = content
+  // Handle HTML img tags and image markdown before escaping
+  let processed = content
+    .replace(/<img([^>]*?)>/g, (match, attrs) => {
+      // Add loading="lazy" if not present
+      if (!attrs.includes('loading=')) {
+        attrs += ' loading="lazy"';
+      }
+      return `<div class="image-container"><img${attrs}></div>`;
+    })
+    // Handle image markdown: ![alt](url) or ![alt](url "title")
+    .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, url, title) => {
+      const altText = alt || 'Image';
+      const titleAttr = title ? ` title="${title}"` : '';
+      return `<div class="image-container"><img src="${url}" alt="${altText}"${titleAttr} loading="lazy" /></div>`;
+    })
+
+  // Escape HTML entities to prevent XSS
+  const escaped = processed
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -167,8 +183,14 @@ function formatContent(content) {
 
   // Sanitize the final HTML to ensure no XSS
   return DOMPurify.sanitize(formatted, {
-    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'code', 'h2', 'h3', 'h4', 'ul', 'li'],
-    ALLOWED_ATTR: ['class']
+    ALLOWED_TAGS: [
+      'p', 'br', 'strong', 'em', 'code', 'h2', 'h3', 'h4', 'ul', 'li',
+      'img', 'figure', 'figcaption', 'div', 'span', 'a'
+    ],
+    ALLOWED_ATTR: [
+      'class', 'src', 'alt', 'title', 'width', 'height', 'style',
+      'href', 'target', 'rel'
+    ]
   })
 }
 
