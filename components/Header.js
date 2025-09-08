@@ -4,7 +4,7 @@ const items = [
     { icon: 'fab fa-youtube', link: 'https://youtube.com/@wasiqonx' },
     { icon: 'fab fa-github', link: 'https://github.com/wasiqonx' },
     { icon: 'fab fa-twitter', link: 'https://twitter.com/wasiqonx' },
-    { icon: 'fab fa-telegram', link: 'https://t.me/wasigtg' },
+    { icon: 'fab fa-telegram', link: 'https://t.me/wasiqtg' },
     { icon: 'custom-substack', link: 'https://wasiqonx.substack.com', customIcon: true },
   ]
 

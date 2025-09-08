@@ -36,7 +36,7 @@ export default function Home() {
                 <li><a href="https://github.com/wasiqonx" target="_blank" className="text-blue-400 hover:text-blue-300">wasiqonx - GitHub</a></li>
                 <li><a href="https://instagram.com/wasiqonx" target="_blank" className="text-blue-400 hover:text-blue-300">wasiqonx - Instagram</a></li>
                 <li><a href="https://twitter.com/wasiqonx" target="_blank" className="text-blue-400 hover:text-blue-300">wasiqonx - Twitter</a></li>
-                <li><a href="https://t.me/wasigtg" target="_blank" className="text-blue-400 hover:text-blue-300">@wasiqtg - Telegram</a></li>
+                <li><a href="https://t.me/wasiqtg" target="_blank" className="text-blue-400 hover:text-blue-300">@wasiqtg - Telegram</a></li>
                 <li><a href="https://youtube.com/@wasiqonx" target="_blank" className="text-blue-400 hover:text-blue-300">wasiqonx - YouTube</a></li>
                 <li><a href="https://wasiqonx.substack.com" target="_blank" className="text-blue-400 hover:text-blue-300">wasiqonx - Substack</a></li>
             </ul>
