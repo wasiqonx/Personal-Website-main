@@ -1,6 +1,24 @@
 module.exports = {
   images: {
-    domains: [ "i.imgur.com", "localhost", "/", "cdn.discordapp.com" ]
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'wasiq.in',
+      }
+    ],
+    domains: ["i.imgur.com", "localhost", "cdn.discordapp.com"] // Keep for backward compatibility
   },
 
   // Custom webpack configuration
