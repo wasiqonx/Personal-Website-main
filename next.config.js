@@ -232,10 +232,11 @@ module.exports = {
     minimumCacheTTL: 31536000, // 1 year
   },
 
-  // Webpack optimizations for Cloudflare
+  // Webpack optimizations for Cloudflare (production only)
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Optimize bundle splitting
-    if (!dev && !isServer) {
+    // Only apply optimizations in production to avoid dev server issues
+    if (!dev) {
+      // Optimize bundle splitting
       config.optimization.splitChunks.chunks = 'all'
     }
 

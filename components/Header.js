@@ -12,6 +12,8 @@ const navItems = [
     { icon: 'fal fa-home', active: 'fa fa-home', label: 'Home', href: '/' },
     { icon: 'fal fa-compass', active: 'fa fa-compass', label: 'Projects', href: '/projects' },
     { icon: 'fal fa-rss', active: 'fa fa-rss', label: 'Blog', href: '/blog' },
+    { icon: 'fal fa-code-branch', active: 'fa fa-code-branch', label: 'GitHub', href: '/github' },
+    { icon: 'fal fa-heart', active: 'fa fa-heart', label: 'Donate', href: '/donate' },
     { icon: 'fal fa-phone', active: 'fa fa-phone', label: 'Contact', href: '/contact' }
 ]
 

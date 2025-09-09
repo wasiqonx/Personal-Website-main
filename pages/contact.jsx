@@ -49,12 +49,13 @@ export default function Home() {
                         <p className="font-semibold text-xl">@wasiqonx</p>
                     </div>
                 </a>
-                <a href="mailto:wasiq@wasiq.in">
-                    <div className="mt-2 flex justify-between bg-zinc-500/5 hover:bg-zinc-500/10 transition-all duration-200 px-4 py-2 rounded-lg items-center">
-                        <i className="fa fa-envelope fa-2x" />
-                        <p className="font-semibold text-xl">wasiq@wasiq.in</p>
-                    </div>
-                </a>
+                <button
+                    onClick={() => window.location.href = 'mailto:wasiq@wasiq.in'}
+                    className="mt-2 flex justify-between bg-zinc-500/5 hover:bg-zinc-500/10 transition-all duration-200 px-4 py-2 rounded-lg items-center w-full cursor-pointer"
+                >
+                    <i className="fa fa-envelope fa-2x" />
+                    <p className="font-semibold text-xl">wasiq@wasiq.in</p>
+                </button>
             </div>
         </div>
       </div>

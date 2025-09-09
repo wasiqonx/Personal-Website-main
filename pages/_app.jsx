@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import '../styles/tooltip.css'
 import Head from 'next/head';
 import Link from 'next/link';
+import Script from 'next/script';
 import dynamic from 'next/dynamic';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/scale-extreme.css';
@@ -14,38 +15,75 @@ import { AuthProvider } from '../lib/auth';
 
 const Header = dynamic(() => import('../components/Header'))
 const CookieConsent = dynamic(() => import('../components/CookieConsent'))
+
 function MyApp({ Component, pageProps }) {
-  let [load,setLoad] = useState(false);
-    useEffect(() => {
+  const [load, setLoad] = useState(true); // Start with loaded state to prevent hydration mismatch
+
+  useEffect(() => {
+    // Set initial pointer events
+    if (typeof document !== 'undefined') {
+      document.documentElement.style.pointerEvents = 'all';
+    }
+
+    const handleRouteChangeStart = () => {
+      setLoad(false);
+      if (typeof document !== 'undefined') {
+        document.documentElement.style.pointerEvents = 'none';
+      }
+    };
+
+    const handleRouteChangeComplete = () => {
       setTimeout(() => {
         setLoad(true);
-        document.documentElement.style = 'pointer-events: all;'
-      }, 1000)
-    }, [])
-    Router.events.on('routeChangeStart', () => {
-        setLoad(false);
-        document.documentElement.style = 'pointer-events: none;'
-    });
-    Router.events.on('routeChangeComplete', () => {
+        if (typeof document !== 'undefined') {
+          document.documentElement.style.pointerEvents = 'all';
+        }
+      }, 1000);
+    };
+
+    const handleRouteChangeError = () => {
       setTimeout(() => {
         setLoad(true);
-        document.documentElement.style = 'pointer-events: all;'
-      }, 1000)
-    });
-    Router.events.on('routeChangeError', () => {
-      setTimeout(() => {
-        setLoad(true);
-        document.documentElement.style = 'pointer-events: all;'
-      }, 1000)
-    });
+        if (typeof document !== 'undefined') {
+          document.documentElement.style.pointerEvents = 'all';
+        }
+      }, 1000);
+    };
+
+    Router.events.on('routeChangeStart', handleRouteChangeStart);
+    Router.events.on('routeChangeComplete', handleRouteChangeComplete);
+    Router.events.on('routeChangeError', handleRouteChangeError);
+
+    return () => {
+      Router.events.off('routeChangeStart', handleRouteChangeStart);
+      Router.events.off('routeChangeComplete', handleRouteChangeComplete);
+      Router.events.off('routeChangeError', handleRouteChangeError);
+    };
+  }, []);
   return (
     <AuthProvider>
       <Head>
           <title>Wasiq Syed</title>
           <link rel="shortcut icon" href="https://ugc.production.linktr.ee/6RJk9s2pQZ2yAdcxw3Ir_TXX2dLlNmwM2OFdf?io=true&size=avatar-v3_0" type="image/x-icon" ></link>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
       </Head>
+
+      {/* Suppress hydration warnings in development */}
+      {process.env.NODE_ENV === 'development' && (
+        <Script
+          id="suppress-hydration-warnings"
+          strategy="afterInteractive"
+        >
+          {`
+            window.addEventListener('error', function(e) {
+              if (e.message && e.message.includes('hydration')) {
+                e.preventDefault();
+                console.warn('Hydration warning suppressed:', e.message);
+              }
+            });
+          `}
+        </Script>
+      )}
       <Transition
             as={Fragment}
             show={!load ? true : false}
@@ -83,7 +121,6 @@ function MyApp({ Component, pageProps }) {
                   🍪 Cookies
                 </Link>
               </div>
-
             </div>
           </div>
         </div>
