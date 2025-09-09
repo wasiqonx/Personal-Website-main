@@ -1,0 +1,57 @@
+# Cloudflare + Next.js Security Headers
+# Place this file in your public/ directory
+
+/*
+  # Security Headers
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+  # Content Security Policy (adjust for your needs)
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; media-src 'self'; object-src 'none'; frame-src 'none';
+
+  # Bot Protection Headers
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex
+
+# Admin routes - Extra protection
+/admin*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# API routes - CORS and security
+/api*
+  Access-Control-Allow-Origin: https://wasiq.in
+  Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS
+  Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With
+  Access-Control-Max-Age: 86400
+
+# Upload endpoint - Special protection
+/api/upload
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Static assets - Long cache
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/uploads/*
+  Cache-Control: public, max-age=86400
+  X-Content-Type-Options: nosniff
+
+# Block common attack paths
+/wp-admin*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+
+/wp-login*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+
+/.env*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+
+/phpmyadmin*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
+
+/admin.php*
+  X-Robots-Tag: noindex, nofollow, noarchive, nosnippet, noimageindex, nocache
