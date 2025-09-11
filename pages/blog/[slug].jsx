@@ -81,23 +81,54 @@ export default function BlogPost() {
 
           {/* Media Files Section - Above Content */}
           {post.MediaFile && post.MediaFile.length > 0 && (
-            <div className="mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+            <div className="mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                 {post.MediaFile.map((media) => (
                   <div key={media.id} className="relative group">
                     {media.type === 'image' ? (
-                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-neutral-800/20">
-                        <Image
-                          src={media.url}
-                          alt={media.originalName}
-                          fill
-                          unoptimized
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
+                      <div className="relative aspect-[3/4] h-[600px] rounded-lg overflow-hidden bg-neutral-800/20">
+                        {media.responsive ? (
+                          // Use responsive images with our processed sizes
+                          <picture className="w-full h-full">
+                            {/* Large screens - use large size */}
+                            <source
+                              media="(min-width: 1024px)"
+                              srcSet={`${media.processedImage.sizes.large?.url || media.url} 1280w`}
+                            />
+                            {/* Medium screens - use medium size */}
+                            <source
+                              media="(min-width: 768px)"
+                              srcSet={`${media.processedImage.sizes.medium?.url || media.url} 1024w`}
+                            />
+                            {/* Small screens - use small size */}
+                            <source
+                              media="(min-width: 640px)"
+                              srcSet={`${media.processedImage.sizes.small?.url || media.url} 640w`}
+                            />
+                            {/* Mobile - use thumbnail size */}
+                            <Image
+                              src={media.processedImage.sizes.thumbnail?.url || media.url}
+                              alt={media.originalName}
+                              fill
+                              unoptimized
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                            />
+                          </picture>
+                        ) : (
+                          // Fallback for non-processed images
+                          <Image
+                            src={media.url}
+                            alt={media.originalName}
+                            fill
+                            unoptimized
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          />
+                        )}
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                       </div>
                     ) : (
-                      <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-neutral-800/20 flex items-center justify-center">
+                      <div className="relative aspect-[3/4] h-[600px] rounded-lg overflow-hidden bg-neutral-800/20 flex items-center justify-center">
                         <video
                           src={media.url}
                           controls
@@ -147,17 +178,21 @@ function formatContent(content) {
   // Handle HTML img tags and image markdown before escaping
   let processed = content
     .replace(/<img([^>]*?)>/g, (match, attrs) => {
-      // Add loading="lazy" if not present
+      // Add loading="lazy" and responsive classes if not present
+      let updatedAttrs = attrs;
       if (!attrs.includes('loading=')) {
-        attrs += ' loading="lazy"';
+        updatedAttrs += ' loading="lazy"';
       }
-      return `<div class="image-container"><img${attrs}></div>`;
+      if (!attrs.includes('class=')) {
+        updatedAttrs += ' class="responsive-image"';
+      }
+      return `<div class="image-container"><img${updatedAttrs}></div>`;
     })
     // Handle image markdown: ![alt](url) or ![alt](url "title")
     .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, url, title) => {
       const altText = alt || 'Image';
       const titleAttr = title ? ` title="${title}"` : '';
-      return `<div class="image-container"><img src="${url}" alt="${altText}"${titleAttr} loading="lazy" /></div>`;
+      return `<div class="image-container"><img src="${url}" alt="${altText}"${titleAttr} loading="lazy" class="responsive-image" /></div>`;
     })
 
   // Escape HTML entities to prevent XSS

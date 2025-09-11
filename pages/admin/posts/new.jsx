@@ -450,14 +450,24 @@ export default function NewPost() {
                           </div>
 
                           {file.type === 'image' ? (
-                            <div className="relative w-full h-24 mb-2">
-                              <Image
-                                src={file.url}
-                                alt={file.originalName}
-                                fill
-                                unoptimized
-                                className="object-cover rounded"
-                              />
+                            <div className="relative w-full h-32 mb-2">
+                              {file.responsive ? (
+                                <Image
+                                  src={file.processedImage?.sizes?.thumbnail?.url || file.url}
+                                  alt={file.originalName}
+                                  fill
+                                  unoptimized
+                                  className="object-cover rounded"
+                                />
+                              ) : (
+                                <Image
+                                  src={file.url}
+                                  alt={file.originalName}
+                                  fill
+                                  unoptimized
+                                  className="object-cover rounded"
+                                />
+                              )}
                             </div>
                           ) : (
                             <div className="w-full h-24 bg-neutral-700/30 rounded flex items-center justify-center mb-2">

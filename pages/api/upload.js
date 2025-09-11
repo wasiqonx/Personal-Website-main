@@ -1,4 +1,4 @@
-import { FileStorage } from '../../lib/fileStorage'
+import { FileStorage } from '../../lib/fileStorage.js'
 import { requireAuth } from '../../lib/auth'
 
 // Simple in-memory rate limiting for uploads

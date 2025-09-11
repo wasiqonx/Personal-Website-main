@@ -224,6 +224,98 @@ html {
     animation: loading-shimmer 1.5s infinite !important;
 }
 
+/* Responsive image handling */
+.responsive-image {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 12px !important;
+    margin: 1.5rem auto !important;
+    display: block !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out !important;
+}
+
+.responsive-image:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Responsive image containers for different screen sizes */
+@media (max-width: 640px) {
+    .responsive-image {
+        margin: 1rem auto !important;
+        border-radius: 8px !important;
+    }
+
+    .image-container {
+        margin: 1.5rem 0 !important;
+    }
+
+    /* Ensure picture elements fill their containers on mobile */
+    picture {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .responsive-image {
+        max-width: 90% !important;
+    }
+}
+
+/* Picture element responsive behavior */
+picture img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.2s ease-in-out !important;
+}
+
+picture img:hover {
+    transform: scale(1.02) !important;
+}
+
+/* Ensure aspect ratios are maintained properly */
+.aspect-\[4\/3\] picture,
+.aspect-\[4\/3\] img {
+    aspect-ratio: 4 / 3 !important;
+}
+
+.aspect-\[3\/4\] picture,
+.aspect-\[3\/4\] img,
+.aspect-\[3\/4\] video {
+    aspect-ratio: 3 / 4 !important;
+}
+
+/* Larger media containers for blog posts */
+.aspect-\[3\/4\].h-\[600px\] {
+    height: 600px !important;
+    max-height: 70vh; /* Don't exceed 70% of viewport height */
+}
+
+/* Responsive adjustments for larger media containers */
+@media (max-width: 768px) {
+    .aspect-\[3\/4\].h-\[600px\] {
+        height: 400px !important; /* Smaller on mobile */
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .aspect-\[3\/4\].h-\[600px\] {
+        height: 300px !important; /* Even smaller on very small screens */
+        max-height: 40vh;
+    }
+}
+
+/* High contrast mode support for responsive images */
+@media (prefers-contrast: high) {
+    .responsive-image {
+        border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    }
+}
+
 @keyframes loading-shimmer {
     0% {
         background-position: -200% 0;
