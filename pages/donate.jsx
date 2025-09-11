@@ -87,7 +87,7 @@ export default function Donate() {
           <div className="bg-neutral-800/20 rounded-xl p-6 border border-neutral-700/30">
             <h3 className="text-lg font-medium text-white mb-3 text-center">How to Get Monero</h3>
             <div className="text-sm text-white/70 space-y-1">
-              <p>• Buy XMR on exchanges (Binance, Kraken, Coinbase)</p>
+              <p>• Buy XMR on CEX/DEX/P2P (Kucoin, Kraken, MEXC, Retoswap, trocador.app)</p>
               <p>• Mine XMR with CPU using XMRig</p>
               <p>• Download official wallet from getmonero.org</p>
             </div>
