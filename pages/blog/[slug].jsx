@@ -86,7 +86,7 @@ export default function BlogPost() {
                 {post.MediaFile.map((media) => (
                   <div key={media.id} className="relative group">
                     {media.type === 'image' ? (
-                      <div className="relative aspect-[3/4] h-[600px] rounded-lg overflow-hidden bg-neutral-800/20">
+                      <div className="relative aspect-[3/4] h-[800px] rounded-lg overflow-hidden bg-neutral-800/20">
                         {media.responsive ? (
                           // Use responsive images with our processed sizes
                           <picture className="w-full h-full">
@@ -128,7 +128,7 @@ export default function BlogPost() {
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                       </div>
                     ) : (
-                      <div className="relative aspect-[3/4] h-[600px] rounded-lg overflow-hidden bg-neutral-800/20 flex items-center justify-center">
+                      <div className="relative aspect-[3/4] h-[800px] rounded-lg overflow-hidden bg-neutral-800/20 flex items-center justify-center">
                         <video
                           src={media.url}
                           controls

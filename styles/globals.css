@@ -289,32 +289,32 @@ picture img:hover {
 }
 
 /* Larger media containers for blog posts */
-.aspect-\[3\/4\].h-\[600px\] {
-    height: 600px !important;
-    max-height: 70vh; /* Don't exceed 70% of viewport height */
-    max-width: 1200px; /* Prevent from becoming too wide on large screens */
+.aspect-\[3\/4\].h-\[800px\] {
+    height: 800px !important;
+    max-height: 80vh; /* Don't exceed 80% of viewport height */
+    max-width: 1400px; /* Allow larger frames on large screens */
     margin: 0 auto; /* Center on very large screens */
 }
 
 /* Responsive adjustments for larger media containers */
 @media (max-width: 768px) {
-    .aspect-\[3\/4\].h-\[600px\] {
-        height: 400px !important; /* Smaller on mobile */
-        max-height: 50vh;
+    .aspect-\[3\/4\].h-\[800px\] {
+        height: 500px !important; /* Larger on mobile for 200% increase */
+        max-height: 60vh;
     }
 }
 
 @media (max-width: 480px) {
-    .aspect-\[3\/4\].h-\[600px\] {
-        height: 300px !important; /* Even smaller on very small screens */
-        max-height: 40vh;
+    .aspect-\[3\/4\].h-\[800px\] {
+        height: 400px !important; /* Even on very small screens for 200% increase */
+        max-height: 50vh;
     }
 }
 
-/* Full-width media containers - prevent excessive width on large screens */
+/* Full-width media containers - allow larger frames on large screens */
 @media (min-width: 1280px) {
-    .aspect-\[3\/4\].h-\[600px\] {
-        max-width: 1000px; /* Reasonable max width on very large screens */
+    .aspect-\[3\/4\].h-\[800px\] {
+        max-width: 1200px; /* Larger max width on very large screens */
     }
 }
 
