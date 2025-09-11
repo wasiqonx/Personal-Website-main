@@ -292,6 +292,8 @@ picture img:hover {
 .aspect-\[3\/4\].h-\[600px\] {
     height: 600px !important;
     max-height: 70vh; /* Don't exceed 70% of viewport height */
+    max-width: 1200px; /* Prevent from becoming too wide on large screens */
+    margin: 0 auto; /* Center on very large screens */
 }
 
 /* Responsive adjustments for larger media containers */
@@ -306,6 +308,13 @@ picture img:hover {
     .aspect-\[3\/4\].h-\[600px\] {
         height: 300px !important; /* Even smaller on very small screens */
         max-height: 40vh;
+    }
+}
+
+/* Full-width media containers - prevent excessive width on large screens */
+@media (min-width: 1280px) {
+    .aspect-\[3\/4\].h-\[600px\] {
+        max-width: 1000px; /* Reasonable max width on very large screens */
     }
 }
 

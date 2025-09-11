@@ -82,7 +82,7 @@ export default function BlogPost() {
           {/* Media Files Section - Above Content */}
           {post.MediaFile && post.MediaFile.length > 0 && (
             <div className="mb-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 gap-8">
                 {post.MediaFile.map((media) => (
                   <div key={media.id} className="relative group">
                     {media.type === 'image' ? (
@@ -112,7 +112,7 @@ export default function BlogPost() {
                               fill
                               unoptimized
                               className="object-cover transition-transform duration-300 group-hover:scale-105"
-                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                             />
                           </picture>
                         ) : (
