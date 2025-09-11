@@ -455,6 +455,7 @@ export default function NewPost() {
                                 src={file.url}
                                 alt={file.originalName}
                                 fill
+                                unoptimized
                                 className="object-cover rounded"
                               />
                             </div>
