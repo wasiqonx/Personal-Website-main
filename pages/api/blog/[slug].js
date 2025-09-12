@@ -77,7 +77,7 @@ async function blogPostHandler(req, res) {
     }
   } else if (req.method === 'PUT') {
     try {
-      const { title, content, excerpt, published, tags } = req.body
+      const { title, content, excerpt, published, tags, media } = req.body
 
       // Check if post exists and get current publishedAt status
       const existingPost = await prisma.post.findUnique({
@@ -105,7 +105,21 @@ async function blogPostHandler(req, res) {
               where: { name: tag },
               create: { name: tag }
             }))
-          } : undefined
+          } : undefined,
+          MediaFile: {
+            deleteMany: {}, // Always delete existing media files first
+            ...(media && media.length > 0 ? {
+              create: media.map(file => ({
+                filename: file.filename,
+                originalName: file.originalName,
+                mimetype: file.mimetype,
+                size: file.size,
+                url: file.url,
+                type: file.type,
+                position: file.position
+              }))
+            } : {})
+          }
         },
         select: {
           id: true,
@@ -130,6 +144,22 @@ async function blogPostHandler(req, res) {
               name: true
             }
           },
+          MediaFile: {
+            select: {
+              id: true,
+              filename: true,
+              originalName: true,
+              mimetype: true,
+              size: true,
+              url: true,
+              type: true,
+              position: true,
+              createdAt: true
+            },
+            orderBy: {
+              position: 'asc'
+            }
+          },
           Comment: {
             where: {
               approved: true
@@ -150,6 +180,7 @@ async function blogPostHandler(req, res) {
 
       return res.status(200).json(updatedPost)
     } catch (error) {
+      console.error('Error updating post:', error)
       return res.status(500).json({ error: 'Failed to update post' })
     }
   } else if (req.method === 'DELETE') {

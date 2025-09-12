@@ -86,10 +86,10 @@ export default function BlogPost() {
                 {post.MediaFile.map((media) => (
                   <div key={media.id} className="relative group">
                     {media.type === 'image' ? (
-                      <div className="relative aspect-[3/4] h-[800px] rounded-lg overflow-hidden bg-neutral-800/20">
+                      <div className="w-full max-w-6xl mx-auto my-8">
                         {media.responsive ? (
                           // Use responsive images with our processed sizes
-                          <picture className="w-full h-full">
+                          <picture className="w-full block">
                             {/* Large screens - use large size */}
                             <source
                               media="(min-width: 1024px)"
@@ -106,26 +106,22 @@ export default function BlogPost() {
                               srcSet={`${media.processedImage.sizes.small?.url || media.url} 640w`}
                             />
                             {/* Mobile - use thumbnail size */}
-                            <Image
+                            <img
                               src={media.processedImage.sizes.thumbnail?.url || media.url}
                               alt={media.originalName}
-                              fill
-                              unoptimized
-                              className="object-cover transition-transform duration-300 group-hover:scale-105"
-                              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              className="w-full h-auto rounded-lg shadow-2xl transition-transform duration-300 hover:scale-102"
+                              loading="lazy"
                             />
                           </picture>
                         ) : (
                           // Fallback for non-processed images
-                          <Image
+                          <img
                             src={media.url}
                             alt={media.originalName}
-                            fill
-                            unoptimized
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            className="w-full h-auto rounded-lg shadow-2xl transition-transform duration-300 hover:scale-102"
+                            loading="lazy"
                           />
                         )}
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                       </div>
                     ) : (
                       <div className="relative aspect-[3/4] h-[800px] rounded-lg overflow-hidden bg-neutral-800/20 flex items-center justify-center">
@@ -184,15 +180,35 @@ function formatContent(content) {
         updatedAttrs += ' loading="lazy"';
       }
       if (!attrs.includes('class=')) {
-        updatedAttrs += ' class="responsive-image"';
+        updatedAttrs += ' class="responsive-image rounded-lg shadow-lg max-w-full h-auto"';
       }
-      return `<div class="image-container"><img${updatedAttrs}></div>`;
+      return `<div class="image-container my-6"><img${updatedAttrs}></div>`;
     })
     // Handle image markdown: ![alt](url) or ![alt](url "title")
     .replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, url, title) => {
       const altText = alt || 'Image';
       const titleAttr = title ? ` title="${title}"` : '';
-      return `<div class="image-container"><img src="${url}" alt="${altText}"${titleAttr} loading="lazy" class="responsive-image" /></div>`;
+      return `<div class="image-container my-6"><img src="${url}" alt="${altText}"${titleAttr} loading="lazy" class="responsive-image rounded-lg shadow-lg max-w-full h-auto" /></div>`;
+    })
+    // Handle video markdown: @[alt](url) or @[alt](url "title")
+    .replace(/@\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)/g, (match, alt, url, title) => {
+      const altText = alt || 'Video';
+      const titleAttr = title ? ` title="${title}"` : '';
+      return `<div class="video-container my-6"><video src="${url}" controls${titleAttr} class="max-w-full rounded-lg shadow-lg"><p>Your browser does not support the video tag. <a href="${url}">Download the video</a></p></video></div>`;
+    })
+    // Handle links to uploaded media files
+    .replace(/\[([^\]]+)\]\((\/uploads\/[^)]+)\)/g, (match, text, url) => {
+      if (url.includes('/uploads/images/') || url.includes('/uploads/videos/')) {
+        const isImage = url.includes('/uploads/images/');
+        const fileName = text || (isImage ? 'Image' : 'Video');
+        if (isImage) {
+          return `<div class="image-container my-6"><img src="${url}" alt="${fileName}" loading="lazy" class="responsive-image rounded-lg shadow-lg max-w-full h-auto" /></div>`;
+        } else {
+          return `<div class="video-container my-6"><video src="${url}" controls class="max-w-full rounded-lg shadow-lg"><p>Your browser does not support the video tag. <a href="${url}">Download the video</a></p></video></div>`;
+        }
+      }
+      // Regular link for non-media files
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:text-blue-300">${text}</a>`;
     })
 
   // Escape HTML entities to prevent XSS
@@ -221,11 +237,11 @@ function formatContent(content) {
   return DOMPurify.sanitize(formatted, {
     ALLOWED_TAGS: [
       'p', 'br', 'strong', 'em', 'code', 'h2', 'h3', 'h4', 'ul', 'li',
-      'img', 'figure', 'figcaption', 'div', 'span', 'a'
+      'img', 'video', 'figure', 'figcaption', 'div', 'span', 'a'
     ],
     ALLOWED_ATTR: [
       'class', 'src', 'alt', 'title', 'width', 'height', 'style',
-      'href', 'target', 'rel'
+      'href', 'target', 'rel', 'controls', 'preload', 'poster'
     ]
   })
 }

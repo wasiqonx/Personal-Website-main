@@ -22,6 +22,11 @@ export default function NewPost() {
   const [dragActive, setDragActive] = useState(false)
   const fileInputRef = useRef(null)
 
+  // External URL state
+  const [externalUrl, setExternalUrl] = useState('')
+  const [externalType, setExternalType] = useState('image')
+  const [externalTitle, setExternalTitle] = useState('')
+
   // Sync checkbox DOM state with React state
   useEffect(() => {
     if (checkboxRef.current && checkboxRef.current.checked !== formData.published) {
@@ -153,6 +158,43 @@ export default function NewPost() {
       newFiles.splice(toIndex, 0, movedFile)
       return newFiles
     })
+  }
+
+  const addExternalUrl = () => {
+    if (!externalUrl.trim()) {
+      setError('Please enter a URL')
+      return
+    }
+
+    // Validate URL format
+    try {
+      new URL(externalUrl)
+    } catch {
+      setError('Please enter a valid URL')
+      return
+    }
+
+    const title = externalTitle.trim() || `External ${externalType}`
+
+    // Create external media object
+    const externalMedia = {
+      id: `external-${Date.now()}`, // Unique ID for external media
+      filename: `external-${Date.now()}.${externalType === 'image' ? 'jpg' : 'mp4'}`,
+      originalName: title,
+      mimetype: externalType === 'image' ? 'image/jpeg' : 'video/mp4',
+      size: 0, // External files don't have local size
+      url: externalUrl,
+      type: externalType,
+      position: mediaFiles.length,
+      isExternal: true // Mark as external
+    }
+
+    setMediaFiles(prev => [...prev, externalMedia])
+
+    // Reset form
+    setExternalUrl('')
+    setExternalTitle('')
+    setError('')
   }
 
   const handleSubmit = async (e) => {
@@ -362,6 +404,10 @@ export default function NewPost() {
                   <p className="text-white/50 text-sm">
                     Supports basic markdown: **bold**, *italic*, `code`, # headers, - lists
                     <br />
+                    <strong>Media Links:</strong> Use ![alt text](url) for images or @[alt text](url) for videos
+                    <br />
+                    <strong>External Media:</strong> Add external URLs above, then copy-paste the generated links
+                    <br />
                     <strong>Maximum length: 100,000 characters</strong>
                     <br />
                     <em>Note: Posts over 50,000 characters may affect page loading performance</em>
@@ -369,10 +415,59 @@ export default function NewPost() {
                 </div>
               </div>
 
+              {/* External URL Section */}
+              <div>
+                <label className="block text-white/70 mb-2">
+                  Embed External Media (Images & Videos)
+                </label>
+                <div className="bg-neutral-800/20 rounded-lg p-4 space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <select
+                        value={externalType}
+                        onChange={(e) => setExternalType(e.target.value)}
+                        className="w-full px-3 py-2 bg-neutral-700/50 border border-neutral-600 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                      </select>
+                    </div>
+                    <div>
+                      <input
+                        type="text"
+                        value={externalTitle}
+                        onChange={(e) => setExternalTitle(e.target.value)}
+                        placeholder="Title (optional)"
+                        className="w-full px-3 py-2 bg-neutral-700/50 border border-neutral-600 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="url"
+                      value={externalUrl}
+                      onChange={(e) => setExternalUrl(e.target.value)}
+                      placeholder={`Enter ${externalType} URL (https://...)`}
+                      className="flex-1 px-3 py-2 bg-neutral-700/50 border border-neutral-600 rounded-lg text-white text-sm placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <button
+                      type="button"
+                      onClick={addExternalUrl}
+                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors duration-200 font-medium"
+                    >
+                      Add Link
+                    </button>
+                  </div>
+                  <p className="text-white/50 text-xs">
+                    Add external images/videos from the web. They will be embedded in your post content.
+                  </p>
+                </div>
+              </div>
+
               {/* Media Upload Section */}
               <div>
                 <label className="block text-white/70 mb-2">
-                  Media Files (Images & Videos) - {mediaFiles.length} files
+                  Upload Media Files (Images & Videos) - {mediaFiles.length} files
                 </label>
 
                 {/* Upload Area */}
@@ -451,27 +546,44 @@ export default function NewPost() {
 
                           {file.type === 'image' ? (
                             <div className="relative w-full h-32 mb-2">
-                              {file.responsive ? (
-                                <Image
-                                  src={file.processedImage?.sizes?.thumbnail?.url || file.url}
-                                  alt={file.originalName}
-                                  fill
-                                  unoptimized
-                                  className="object-cover rounded"
-                                />
+                              {file.isExternal ? (
+                                // External image - try to load it
+                                <div className="w-full h-32 bg-neutral-700/30 rounded flex items-center justify-center">
+                                  <div className="text-center">
+                                    <i className="fas fa-external-link-alt text-xl text-blue-400 mb-1"></i>
+                                    <p className="text-xs text-white/60">External Image</p>
+                                  </div>
+                                </div>
                               ) : (
-                                <Image
-                                  src={file.url}
-                                  alt={file.originalName}
-                                  fill
-                                  unoptimized
-                                  className="object-cover rounded"
-                                />
+                                file.responsive ? (
+                                  <Image
+                                    src={file.processedImage?.sizes?.thumbnail?.url || file.url}
+                                    alt={file.originalName}
+                                    fill
+                                    unoptimized
+                                    className="object-cover rounded"
+                                  />
+                                ) : (
+                                  <Image
+                                    src={file.url}
+                                    alt={file.originalName}
+                                    fill
+                                    unoptimized
+                                    className="object-cover rounded"
+                                  />
+                                )
                               )}
                             </div>
                           ) : (
                             <div className="w-full h-24 bg-neutral-700/30 rounded flex items-center justify-center mb-2">
-                              <i className="fas fa-video text-2xl text-white/50"></i>
+                              {file.isExternal ? (
+                                <div className="text-center">
+                                  <i className="fas fa-external-link-alt text-xl text-blue-400 mb-1"></i>
+                                  <p className="text-xs text-white/60">External Video</p>
+                                </div>
+                              ) : (
+                                <i className="fas fa-video text-2xl text-white/50"></i>
+                              )}
                             </div>
                           )}
 
@@ -479,20 +591,44 @@ export default function NewPost() {
                             {file.originalName}
                           </div>
                           <div className="text-xs text-white/50">
-                            {(file.size / 1024 / 1024).toFixed(1)}MB • {file.type}
+                            {file.isExternal ? (
+                              `External ${file.type} • ${file.url.length > 30 ? file.url.substring(0, 30) + '...' : file.url}`
+                            ) : (
+                              `${(file.size / 1024 / 1024).toFixed(1)}MB • ${file.type}`
+                            )}
                           </div>
                           <div className="text-xs text-white/40 mt-1">
                             Position: {index + 1}
                           </div>
 
-                          <button
-                            type="button"
-                            onClick={() => removeMediaFile(index)}
-                            className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-70 hover:opacity-100 transition-opacity"
-                            title="Remove file"
-                          >
-                            ×
-                          </button>
+                          {/* Action buttons */}
+                          <div className="absolute top-1 right-1 flex space-x-1">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                const linkText = file.type === 'image' ? `![${file.originalName}](${file.url})` : `@[${file.originalName}](${file.url})`;
+                                navigator.clipboard.writeText(linkText).then(() => {
+                                  // Show temporary success feedback
+                                  const btn = e.target;
+                                  const originalText = btn.innerHTML;
+                                  btn.innerHTML = file.isExternal ? '🔗' : '✓';
+                                  setTimeout(() => btn.innerHTML = '📋', 1000);
+                                });
+                              }}
+                              className="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-70 hover:opacity-100 transition-opacity"
+                              title="Copy media link"
+                            >
+                              📋
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeMediaFile(index)}
+                              className="bg-red-600 hover:bg-red-700 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-70 hover:opacity-100 transition-opacity"
+                              title="Remove file"
+                            >
+                              ×
+                            </button>
+                          </div>
                         </div>
                       ))}
                     </div>
