@@ -51,7 +51,7 @@ export default function Home() {
           </div>
               </div>
               <div className={`order-first lg:order-last flex-shrink-0 relative w-[160px] h-[160px] rounded-full pulse-avatar-online `}>
-                <img alt="Wasiq Syed" src={`https://ugc.production.linktr.ee/6RJk9s2pQZ2yAdcxw3Ir_TXX2dLlNmwM2OFdf?io=true&size=avatar-v3_0`} width="160" height="160" className={`bg-neutral-700 w-[160px] h-[160px] rounded-full`} />
+                <img alt="Wasiq Syed" src={`https://qph.cf2.quoracdn.net/main-thumb-1808496254-200-feflnioakkpdmkngzwegyghruwlomhjl.jpeg`} width="160" height="160" className={`bg-neutral-700 w-[160px] h-[160px] rounded-full`} />
               </div>
               
             </div>
