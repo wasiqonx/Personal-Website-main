@@ -11,16 +11,16 @@ export default function Resume() {
   const generateCaptcha = () => {
     const operations = ['plus', 'minus', 'add', 'subtract', 'sum of', 'difference of']
     const weirdNumbers = {
-      1: ['one', 'uno', 'ein', 'ichi', 'один', 'un'],
-      2: ['two', 'dos', 'zwei', 'ni', 'два', 'deux'],
-      3: ['three', 'tres', 'drei', 'san', 'три', 'trois'],
-      4: ['four', 'cuatro', 'vier', 'yon', 'четыре', 'quatre'],
-      5: ['five', 'cinco', 'funf', 'go', 'пять', 'cinq'],
-      6: ['six', 'seis', 'sechs', 'roku', 'шесть', 'six'],
-      7: ['seven', 'siete', 'sieben', 'nana', 'семь', 'sept'],
-      8: ['eight', 'ocho', 'acht', 'hachi', 'восемь', 'huit'],
-      9: ['nine', 'nueve', 'neun', 'kyu', 'девять', 'neuf'],
-      10: ['ten', 'diez', 'zehn', 'ju', 'десять', 'dix']
+      1: ['one'],
+      2: ['two'],
+      3: ['three'],
+      4: ['four'],
+      5: ['five'],
+      6: ['six'],
+      7: ['seven'],
+      8: ['eight'],
+      9: ['nine'],
+      10: ['ten']
     }
 
     const num1 = Math.floor(Math.random() * 10) + 1
@@ -63,8 +63,8 @@ export default function Resume() {
   }
 
   const handleDownload = () => {
-    // Currently does nothing as requested
-    alert('Resume download feature coming soon!')
+    // Open resume PDF in new tab
+    window.open('https://ik.imagekit.io/5lec115kqg/Resume_Wasiq_Syed_gkNdZAeyL.pdf?updatedAt=1761056001878', '_blank')
   }
 
   useEffect(() => {
