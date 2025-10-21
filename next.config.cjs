@@ -152,6 +152,9 @@ module.exports = {
     // Optimize image loading
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 31536000, // 1 year
+
+    // Allow serving from uploads directory
+    unoptimized: true, // Disable Next.js image optimization for uploaded files
   },
 
   // Webpack optimizations for Cloudflare (production only)

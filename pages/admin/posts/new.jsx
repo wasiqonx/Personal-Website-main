@@ -556,20 +556,17 @@ export default function NewPost() {
                                 </div>
                               ) : (
                                 file.responsive ? (
-                                  <Image
+                                  // Use regular img tag for API-served files
+                                  <img
                                     src={file.processedImage?.sizes?.thumbnail?.url || file.url}
                                     alt={file.originalName}
-                                    fill
-                                    unoptimized
-                                    className="object-cover rounded"
+                                    className="w-full h-32 object-cover rounded"
                                   />
                                 ) : (
-                                  <Image
+                                  <img
                                     src={file.url}
                                     alt={file.originalName}
-                                    fill
-                                    unoptimized
-                                    className="object-cover rounded"
+                                    className="w-full h-32 object-cover rounded"
                                   />
                                 )
                               )}

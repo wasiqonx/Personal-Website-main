@@ -88,7 +88,7 @@ export default function BlogPost() {
                     {media.type === 'image' ? (
                       <div className="w-full max-w-6xl mx-auto my-8">
                         {media.responsive ? (
-                          // Use responsive images with our processed sizes
+                          // Use responsive images with our processed sizes - now served via API
                           <picture className="w-full block">
                             {/* Large screens - use large size */}
                             <source
@@ -114,7 +114,7 @@ export default function BlogPost() {
                             />
                           </picture>
                         ) : (
-                          // Fallback for non-processed images
+                          // Fallback for non-processed images - use regular img tag for API-served files
                           <img
                             src={media.url}
                             alt={media.originalName}
