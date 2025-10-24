@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import prisma from '../../../lib/db'
 import jwt from 'jsonwebtoken'
-
-const prisma = new PrismaClient()
 
 // Helper function to verify JWT and check admin status
 async function verifyAdminToken(token) {
