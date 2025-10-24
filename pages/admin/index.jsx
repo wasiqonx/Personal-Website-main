@@ -103,6 +103,9 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl text-white font-semibold">Admin Dashboard</h1>
           <div className="flex space-x-3">
+            <Link href="/admin/investment-theses" className="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition-colors duration-200">
+              <i className="fas fa-file-pdf mr-2"></i>Theses
+            </Link>
             <Link href="/admin/comments" className="bg-orange-600 hover:bg-orange-700 px-4 py-2 rounded-lg transition-colors duration-200">
               <i className="fas fa-comments mr-2"></i>Comments
             </Link>
