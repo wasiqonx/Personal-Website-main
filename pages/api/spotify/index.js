@@ -75,7 +75,17 @@ async function spotifyApiRequest(endpoint, accessToken, method = 'GET', body = n
     throw new Error(`Spotify API error: ${response.status} ${error}`)
   }
 
-  return await response.json()
+  // Handle 204 No Content responses (like pause/play commands)
+  if (response.status === 204) {
+    return { success: true }
+  }
+
+  const contentType = response.headers.get('content-type')
+  if (contentType && contentType.includes('application/json')) {
+    return await response.json()
+  }
+
+  return { success: true }
 }
 
 export default async (req, res) => {
