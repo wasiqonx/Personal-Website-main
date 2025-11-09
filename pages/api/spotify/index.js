@@ -87,18 +87,45 @@ export default async (req, res) => {
     // Handle different actions
     if (req.method === 'POST') {
       if (action === 'pause') {
-        await spotifyApiRequest('/me/player/pause', accessToken, 'PUT')
-        return res.status(200).json({ success: true, message: 'Playback paused' })
+        try {
+          // Get available devices
+          const devices = await spotifyApiRequest('/me/player/devices', accessToken)
+          const activeDevice = devices.devices.find(d => d.is_active)
+          
+          if (!activeDevice) {
+            return res.status(400).json({ error: 'No active Spotify device found. Please start playing music on a Spotify device first.' })
+          }
+          
+          // Pause on the active device
+          await spotifyApiRequest(`/me/player/pause?device_id=${activeDevice.id}`, accessToken, 'PUT')
+          return res.status(200).json({ success: true, message: 'Playback paused on ' + activeDevice.name })
+        } catch (error) {
+          console.error('Pause error:', error)
+          return res.status(500).json({ error: 'Failed to pause playback: ' + error.message })
+        }
       }
 
       if (action === 'play' && trackUri) {
-        // Start playing a specific track
-        const body = {
-          uris: [trackUri],
-          position_ms: 0
+        try {
+          // Get available devices
+          const devices = await spotifyApiRequest('/me/player/devices', accessToken)
+          const activeDevice = devices.devices.find(d => d.is_active)
+          
+          if (!activeDevice) {
+            return res.status(400).json({ error: 'No active Spotify device found. Please start playing music on a Spotify device first.' })
+          }
+          
+          // Start playing the track on the active device
+          const body = {
+            uris: [trackUri],
+            position_ms: 0
+          }
+          await spotifyApiRequest(`/me/player/play?device_id=${activeDevice.id}`, accessToken, 'PUT', body)
+          return res.status(200).json({ success: true, message: 'Track started playing on ' + activeDevice.name })
+        } catch (error) {
+          console.error('Play error:', error)
+          return res.status(500).json({ error: 'Failed to start playback: ' + error.message })
         }
-        await spotifyApiRequest('/me/player/play', accessToken, 'PUT', body)
-        return res.status(200).json({ success: true, message: 'Track started playing' })
       }
     }
 
