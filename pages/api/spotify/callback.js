@@ -39,11 +39,11 @@ export default async (req, res) => {
 
     // Store tokens in cookies (session-based, no user account needed)
     const isProduction = process.env.NODE_ENV === 'production'
-    const secureCookie = isProduction ? 'Secure' : ''
+    const secureCookie = isProduction ? '; Secure' : ''
     res.setHeader('Set-Cookie', [
-      `spotify_access_token=${tokens.access_token}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${tokens.expires_in}`,
-      `spotify_refresh_token=${tokens.refresh_token}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`,
-      `spotify_token_expiry=${Date.now() + tokens.expires_in * 1000}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${tokens.expires_in}`
+      `spotify_access_token=${tokens.access_token}; Path=/; HttpOnly${secureCookie}; SameSite=Lax; Max-Age=${tokens.expires_in}`,
+      `spotify_refresh_token=${tokens.refresh_token}; Path=/; HttpOnly${secureCookie}; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`,
+      `spotify_token_expiry=${Date.now() + tokens.expires_in * 1000}; Path=/; HttpOnly${secureCookie}; SameSite=Lax; Max-Age=${tokens.expires_in}`
     ])
 
     // Redirect to the main Spotify page
