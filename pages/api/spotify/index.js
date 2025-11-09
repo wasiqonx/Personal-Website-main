@@ -24,10 +24,12 @@ async function getSpotifyAccessToken(req, res) {
     const refreshedToken = await refreshSpotifyToken(refreshToken)
 
     // Store refreshed tokens in cookies
+    const isProduction = process.env.NODE_ENV === 'production'
+    const secureCookie = isProduction ? 'Secure' : ''
     res.setHeader('Set-Cookie', [
-      `spotify_access_token=${refreshedToken.access_token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${refreshedToken.expires_in}`,
-      `spotify_refresh_token=${refreshToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`, // 30 days
-      `spotify_token_expiry=${Date.now() + refreshedToken.expires_in * 1000}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${refreshedToken.expires_in}`
+      `spotify_access_token=${refreshedToken.access_token}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${refreshedToken.expires_in}`,
+      `spotify_refresh_token=${refreshToken}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${30 * 24 * 60 * 60}`,
+      `spotify_token_expiry=${Date.now() + refreshedToken.expires_in * 1000}; Path=/; HttpOnly; ${secureCookie}; SameSite=Lax; Max-Age=${refreshedToken.expires_in}`
     ])
 
     return refreshedToken.access_token
