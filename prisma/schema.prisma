@@ -60,16 +60,19 @@ model MediaFile {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  jwtSecret String
-  isAdmin   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Post      Post[]
-  InvestmentThesis InvestmentThesis[]
+  id                   String    @id @default(cuid())
+  email                String    @unique
+  username             String    @unique
+  password             String
+  jwtSecret            String
+  isAdmin              Boolean   @default(false)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  spotifyAccessToken   String?
+  spotifyRefreshToken  String?
+  spotifyTokenExpiry   DateTime?
+  Post                 Post[]
+  InvestmentThesis     InvestmentThesis[]
 }
 
 model InvestmentThesis {

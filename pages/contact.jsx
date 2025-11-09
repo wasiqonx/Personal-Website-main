@@ -7,6 +7,15 @@ export default function Home() {
   const { data: _projects } = swr('/api/projects');
   const projects = _projects ? _projects : null;
 
+  const downloadPGPKey = () => {
+    const link = document.createElement('a');
+    link.href = '/pgp-key.asc';
+    link.download = 'wasiq-pgp-key.asc';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <div className="py-20">
@@ -55,6 +64,20 @@ export default function Home() {
                 >
                     <i className="fa fa-envelope fa-2x" />
                     <p className="font-semibold text-xl">wasiq@wasiq.in</p>
+                </button>
+                <button
+                    onClick={downloadPGPKey}
+                    className="mt-2 flex justify-between bg-zinc-500/5 hover:bg-zinc-500/10 transition-all duration-200 px-4 py-2 rounded-lg items-center w-full cursor-pointer group"
+                    title="Download PGP public key for secure encrypted communication"
+                >
+                    <div className="flex items-center space-x-3">
+                        <i className="fa fa-lock fa-2x group-hover:text-green-400 transition-colors" />
+                        <div className="text-left">
+                            <p className="font-semibold text-xl">PGP Key</p>
+                            <p className="text-xs text-white/50">Encrypted mail</p>
+                        </div>
+                    </div>
+                    <i className="fa fa-download group-hover:translate-y-1 transition-transform" />
                 </button>
             </div>
         </div>
