@@ -127,7 +127,7 @@ export default function SpotifyPage() {
       <h1>Spotify Integration</h1>
 
       {/* Controls Section */}
-      <div style={{ marginBottom: '20px', padding: '15px', background: '#f0f0f0', borderRadius: '4px' }}>
+      <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '4px', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
         <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Controls</h2>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
           {data.currentlyPlaying?.is_playing && (
@@ -154,7 +154,7 @@ export default function SpotifyPage() {
 
       {/* Currently Playing */}
       {data.currentlyPlaying && (
-        <div style={{ marginBottom: '20px', padding: '15px', background: '#e8f5e8', borderRadius: '4px' }}>
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(40, 167, 69, 0.1)', borderRadius: '4px', border: '1px solid rgba(40, 167, 69, 0.2)' }}>
           <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Currently Playing</h2>
           {data.currentlyPlaying.item ? (
             <div>
@@ -172,15 +172,15 @@ export default function SpotifyPage() {
 
       {/* Top 10 Tracks */}
       {data.topTracks?.items && (
-        <div style={{ marginBottom: '20px', padding: '15px', background: '#fff3cd', borderRadius: '4px' }}>
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(255, 193, 7, 0.1)', borderRadius: '4px', border: '1px solid rgba(255, 193, 7, 0.2)' }}>
           <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Top 10 Tracks</h2>
           <div style={{ display: 'grid', gap: '8px' }}>
             {data.topTracks.items.map((track, index) => (
               <div key={track.id} style={{
                 padding: '10px',
-                background: 'white',
+                background: 'rgba(255, 255, 255, 0.05)',
                 borderRadius: '4px',
-                border: '1px solid #ddd',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center'
@@ -212,15 +212,15 @@ export default function SpotifyPage() {
 
       {/* Followed Artists */}
       {data.followedArtists?.artists?.items && (
-        <div style={{ marginBottom: '20px', padding: '15px', background: '#d1ecf1', borderRadius: '4px' }}>
+        <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(23, 162, 184, 0.1)', borderRadius: '4px', border: '1px solid rgba(23, 162, 184, 0.2)' }}>
           <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Followed Artists ({data.followedArtists.artists.items.length})</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '8px' }}>
             {data.followedArtists.artists.items.map((artist) => (
               <div key={artist.id} style={{
                 padding: '10px',
-                background: 'white',
+                background: 'rgba(255, 255, 255, 0.05)',
                 borderRadius: '4px',
-                border: '1px solid #ddd'
+                border: '1px solid rgba(255, 255, 255, 0.1)'
               }}>
                 <strong>{artist.name}</strong>
                 <br />
@@ -238,16 +238,17 @@ export default function SpotifyPage() {
       )}
 
       {/* Raw JSON Response */}
-      <div style={{ marginBottom: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px' }}>
+      <div style={{ marginBottom: '20px', padding: '15px', background: 'rgba(255, 255, 255, 0.02)', borderRadius: '4px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
         <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Pretty Print JSON Response</h2>
         <pre style={{
-          background: '#f5f5f5',
+          background: 'rgba(0, 0, 0, 0.3)',
           padding: '15px',
           borderRadius: '4px',
           overflow: 'auto',
           fontSize: '12px',
           maxHeight: '400px',
-          overflowY: 'auto'
+          overflowY: 'auto',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
         }}>
           {JSON.stringify(data, null, 2)}
         </pre>
