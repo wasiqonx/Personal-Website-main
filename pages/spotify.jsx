@@ -239,7 +239,7 @@ export default function SpotifyPage() {
 
       {/* Raw JSON Response */}
       <div style={{ marginBottom: '20px', padding: '15px', background: '#f8f9fa', borderRadius: '4px' }}>
-        <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Raw JSON Response</h2>
+        <h2 style={{ margin: '0 0 10px 0', fontSize: '18px' }}>Pretty Print JSON Response</h2>
         <pre style={{
           background: '#f5f5f5',
           padding: '15px',
